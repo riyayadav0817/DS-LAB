@@ -90,10 +90,10 @@ int main()
             traverse();
             break;
         case 4:
-            printf("The Circular Queue is %s\n", (isEmpty() ? "Empty" : "Not Empty"));
+            printf("The Circular Queue is %s\n", (isEmpty() ? "This queue is empty" : "This queue is not empty"));
             break;
         case 5:
-            printf("The Circular Queue is %s\n", (isFUll() ? "Full" : "Not Full"));
+            printf("The Circular Queue is %s\n", (isFUll() ? "This queue is full" : "This queue is not full"));
             break;
         case 6:
             printf("\nThis code is executed by RIYA with Roll No. 2400320100920\n");
