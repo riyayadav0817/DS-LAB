@@ -72,8 +72,6 @@ void insertAfter(struct Node **head, int data, int info)
     newNode->next = temp->next;
     temp->next = newNode;
 }
-
-// Remove from beginning
 void removeBeg(struct Node **head)
 {
     if (*head == NULL) 
@@ -86,7 +84,6 @@ void removeBeg(struct Node **head)
     free(temp);
 }
 
-// Remove last node
 void removeLast(struct Node **head)
 {
     if (*head == NULL) 
@@ -109,7 +106,6 @@ void removeLast(struct Node **head)
     temp->next = NULL;
 }
 
-// Remove node after a specific node
 void removeAfter(struct Node **head, int data)
 {
     struct Node *temp = search(*head, data);
@@ -123,7 +119,6 @@ void removeAfter(struct Node **head, int data)
     free(toDelete);
 }
 
-// Main function
 int main() 
 {
     struct Node *head = NULL;
