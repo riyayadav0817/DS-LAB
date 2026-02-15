@@ -1,98 +1,84 @@
-#define SIZE 10
 #include <stdio.h>
+#define MAX 100
 
-struct Queue
-{
-    int data[SIZE];
-    int front, rear;
-} Q;
+int queue[MAX];
+int front = -1, rear = -1;
 
-int isEmpty()
-{
-    return Q.front == -1;
-}
-int isFUll()
-{
-    return Q.rear == SIZE - 1;
-}
-
-void enqueue(int info)
-{
-    if (Q.rear == SIZE - 1)
-    {
-        printf("Queue is full\n");
+void enqueue(int x) {
+    if (rear == MAX - 1) {
+        printf("Queue Overflow\n");
         return;
     }
-    if (Q.front == -1)
-        Q.front += 1;
-    Q.rear++;
-    Q.data[Q.rear] = info;
+    if (front == -1)
+        front = 0;
+    queue[++rear] = x;
+    printf("%d inserted\n", x);
 }
-int dequeue()
-{
-    int item;
-    if (Q.front == -1)
-    {
-        printf("\nQueue is empty\n");
+
+int dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue Underflow\n");
         return -1;
     }
-    item = Q.data[Q.front];
-    if (Q.front == Q.rear)
-        Q.front = Q.rear = -1;
-    else
-        Q.front++;
-    return item;
+    return queue[front++];
 }
-void traverse()
-{
-    if (isEmpty())
-    {
-        printf("Queue is Empty\n");
+
+void display() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty\n");
         return;
     }
-    for (int i = Q.front; i <= Q.rear; i++)
-    {
-        printf("%d ", Q.data[i]);
-    }
+    printf("Queue: ");
+    for (int i = front; i <= rear; i++)
+        printf("%d ", queue[i]);
     printf("\n");
 }
-int main()
-{
-    Q.front = Q.rear = -1;
-    int ch, info;
-    do
-    {
-        printf("\n1.........Enqueue"
-               "\n2.........Dequeue"
-               "\n3.........Traverse"
-               "\n4.........IsEmpty"
-               "\n5.........IsFull"
-               "\n6.........Exit"
-               "\nEnter your choice: ");
-        scanf("%d", &ch);
-        switch (ch)
-        {
-        case 1:
-            printf("Enter info: ");
-            scanf("%d", &info);
-            enqueue(info);
-            break;
-        case 2:
-            info = dequeue();
-            if (info != -1)
-                printf("Removed Element: %d", info);
-            break;
-        case 3:
-            traverse();
-            break;
-        case 4:
-            printf("The queue is %s\n", (isEmpty() == 1 ? "Empty" : "Not Empty"));
-            break;
-        case 6:
-            printf("\nThis code is executed by RIYA with Roll No. 2400320100920\n");
-            break;
-        default:
-            printf("Invalid Choice! Try again\n");
+
+int main() {
+    int choice, val;
+
+    while (1) {
+        printf("\n--- Queue Menu ---\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Exiting.\n");
+            return 0;
         }
-    } while (ch != 6);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                if (scanf("%d", &val) != 1) {
+                    printf("Invalid value input. Exiting.\n");
+                    return 0;
+                }
+                enqueue(val);
+                break;
+
+            case 2:
+                val = dequeue();
+                if (val != -1)
+                    printf("Deleted: %d\n", val);
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                printf("\nThis code is executed by Riya with Roll No. 2400320100920\n");
+                return 0;
+
+            default:
+                printf("Invalid choice\n");
+                break;
+        }
+    }
+
+    return 0;
 }

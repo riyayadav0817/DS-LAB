@@ -1,105 +1,94 @@
-#define SIZE 10
 #include <stdio.h>
+#define SIZE 5
 
-struct CircularQueue
-{
-    int data[SIZE];
-    int front, rear;
-} CQ;
+int queue[SIZE];
+int front = -1, rear = -1;
 
-int isEmpty()
-{
-    return CQ.front == -1;
-}
-int isFUll()
-{
-    return (CQ.rear + 1) % SIZE == CQ.front;
-}
-
-void enqueue(int info)
-{
-    if (isFUll())
-    {
-        printf("CQueue is full\n");
+void enqueue(int x) {
+    if ((rear + 1) % SIZE == front) {
+        printf("Queue Overflow\n");
         return;
     }
-    if (CQ.front == -1)
-        CQ.front += 1;
-    CQ.rear = (CQ.rear + 1) % SIZE;
-    CQ.data[CQ.rear] = info;
+    if (front == -1) front = 0;
+    rear = (rear + 1) % SIZE;
+    queue[rear] = x;
+    printf("Inserted %d\n", x);
 }
-int dequeue()
-{
-    int item;
-    if (isEmpty())
-    {
-        printf("\nCQueue is empty\n");
+
+int dequeue() {
+    if (front == -1) {
+        printf("Queue Underflow\n");
         return -1;
     }
-    item = CQ.data[CQ.front];
-    if (CQ.front == CQ.rear)
-        CQ.front = CQ.rear = -1;
-    else
-        CQ.front = (CQ.front + 1) % SIZE;
-    return item;
+    int val = queue[front];
+
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front = (front + 1) % SIZE;
+    }
+    printf("Deleted %d\n", val);
+    return val;
 }
-void traverse()
-{
-    if (isEmpty())
-    {
-        printf("CQueue is Empty\n");
+
+void display() {
+    if (front == -1) {
+        printf("Queue is empty\n");
         return;
     }
-    printf("front=%d, rear=%d\n", CQ.front, CQ.rear);
-    int i = CQ.front;
-    while (i != CQ.rear)
-    {
-        printf("%d ", CQ.data[i]);
+
+    printf("Queue: ");
+    int i = front;
+    while (1) {
+        printf("%d ", queue[i]);
+        if (i == rear) break;
         i = (i + 1) % SIZE;
     }
-    printf("%d ", CQ.data[i]);
     printf("\n");
 }
-int main()
-{
-    CQ.front = CQ.rear = -1;
-    int ch, info;
-    do
-    {
-        printf("\n1.........Enqueue"
-               "\n2.........Dequeue"
-               "\n3.........Traverse"
-               "\n4.........IsEmpty"
-               "\n5.........IsFull"
-               "\n6.........Exit"
-               "\nEnter your choice: ");
-        scanf("%d", &ch);
-        switch (ch)
-        {
-        case 1:
-            printf("Enter info: ");
-            scanf("%d", &info);
-            enqueue(info);
-            break;
-        case 2:
-            info = dequeue();
-            if (info != -1)
-                printf("Removed Element: %d", info);
-            break;
-        case 3:
-            traverse();
-            break;
-        case 4:
-            printf("The Circular Queue is %s\n", (isEmpty() ? "This queue is empty" : "This queue is not empty"));
-            break;
-        case 5:
-            printf("The Circular Queue is %s\n", (isFUll() ? "This queue is full" : "This queue is not full"));
-            break;
-        case 6:
-            printf("\nThis code is executed by RIYA with Roll No. 2400320100920\n");
-            break;
-        default:
-            printf("Invalid Choice! Try again\n");
+
+int main() {
+    int choice, value;
+
+    while (1) {
+        printf("\n--- Circular Queue Menu ---\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Exiting to avoid infinite loop.\n");
+            return 0;
         }
-    } while (ch != 6);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                if (scanf("%d", &value) != 1) {
+                    printf("Invalid value input. Exiting.\n");
+                    return 0;
+                }
+                enqueue(value);
+                break;
+
+            case 2:
+                dequeue();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                printf("\nThis code is executed by Riya with Roll No-2400320100920\n");
+                return 0;
+
+            default:
+                printf("Invalid choice! Try again.\n");
+        }
+    }
+
+    return 0;
 }
